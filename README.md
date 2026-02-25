@@ -55,7 +55,6 @@ src/
 └── main/
     ├── java/
     │   └── com/virtusa/poc/
-    │       ├── VirtusaApplication.java
     │       ├── config/
     │       ├── controller/
     │       ├── dto/
