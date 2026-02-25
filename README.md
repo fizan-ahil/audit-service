@@ -5,7 +5,8 @@ A robust, production-ready **Spring Boot microservice** for managing audit recor
 This project demonstrates a clean layered architecture, modern Java practices, validation, and database integration suitable for enterprise systems.
 
 
-## 🚀 Features
+
+### 🚀 Features
 
 - **RESTful APIs**  
   Clean, versioned endpoints following REST best practices
@@ -29,7 +30,8 @@ This project demonstrates a clean layered architecture, modern Java practices, v
   Built with Java 21 features and best practices
 
 
-## 🛠️ Tech Stack
+
+### 🛠️ Tech Stack
 
 - **Framework:** Spring Boot (parent v4.0.3)
 - **Language:** Java 21
@@ -44,7 +46,8 @@ This project demonstrates a clean layered architecture, modern Java practices, v
   - Lombok
 
 
-## 📁 Project Structure
+
+### 📁 Project Structure
 
 src/
 └── main/
