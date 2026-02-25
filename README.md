@@ -50,11 +50,19 @@ This project demonstrates a clean layered architecture, modern Java practices, v
 
 ### 📁 Project Structure
 
-com.virtusa.poc
-├── config # Security and application configuration
-├── controller # REST controllers
-├── dto # Request / response DTOs
-├── entity # JPA entities
-├── exception # Global exception handling
-├── repository # Data access layer
-└── service # Business logic layer
+```
+src/
+└── main/
+    ├── java/
+    │   └── com/virtusa/poc/
+    │       ├── VirtusaApplication.java
+    │       ├── config/
+    │       ├── controller/
+    │       ├── dto/
+    │       ├── entity/
+    │       ├── exception/
+    │       ├── repository/
+    │       └── service/
+    └── resources/
+        ├── application.yaml
+```
