@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: virtusa
+
+  datasource:
+    # 1. Change 'database_name' to 'postgres' to match your pgAdmin screen
+    url: jdbc:postgresql://localhost:5432/postgres
+
+    # 2. Change 'username' to 'postgres' (the default)
+    username: postgres
+
+    # 3. REPLACE 'your_installation_password' with the password you
+    # used to unlock the server in pgAdmin
+    password: 4490
+
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.virtusa.poc: DEBUG
+    org.springframework.web: INFO
