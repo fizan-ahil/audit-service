@@ -96,24 +96,24 @@ src/
    CREATE DATABASE audit_db;
    ```
 
-3. **Update application.yaml**
+3. **Configure Local Settings**
    
-   Edit `src/main/resources/application.yaml`:
+   Edit `src/main/resources/application-local.yml` with your actual database credentials:
    ```yaml
    spring:
      datasource:
-       url: jdbc:postgresql://localhost:5432/audit_db
-       username: your_postgres_username
-       password: your_postgres_password
+       url: jdbc:postgresql://localhost:5432/your_database_name
+       username: your_username
+       password: your_password
    ```
 
 4. **Build and Run**
    ```bash
-   # Using Maven wrapper
-   ./mvnw spring-boot:run
+   # Using Maven wrapper (Windows)
+   mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=local
    
    # Or using Maven
-   mvn spring-boot:run
+   mvn spring-boot:run -Dspring-boot.run.profiles=local
    ```
 
 5. **Verify the application**

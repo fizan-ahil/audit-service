@@ -3,25 +3,23 @@ spring:
     name: virtusa
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/audit_database
-    username: postgres
-    password: Meghani123
+    url: jdbc:postgresql://localhost:5432/database_name
+    username: username
+    password: password
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update  # Creates/updates tables automatically
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 8080
+  port: port_number
 
 logging:
   level:
     com.virtusa.poc: DEBUG
     org.springframework.web: INFO
-    org.hibernate.SQL: DEBUG

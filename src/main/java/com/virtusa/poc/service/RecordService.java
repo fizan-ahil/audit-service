@@ -20,12 +20,6 @@ public class RecordService {
 
     private final RecordRepository recordRepository;
 
-    /**
-     * Creates a new record from the given request payload.
-     *
-     * @param request the record creation request
-     * @return the created record response
-     */
     @Transactional
     public RecordResponse createRecord(RecordRequest request) {
         log.info("Creating new record with title: {}", request.getTitle());
@@ -42,11 +36,6 @@ public class RecordService {
         return RecordResponse.fromEntity(savedRecord);
     }
 
-    /**
-     * Retrieves all records.
-     *
-     * @return list of all record responses
-     */
     public List<RecordResponse> getAllRecords() {
         log.info("Fetching all records");
 
@@ -58,13 +47,6 @@ public class RecordService {
         return records;
     }
 
-    /**
-     * Retrieves a single record by its ID.
-     *
-     * @param id the record ID
-     * @return the record response
-     * @throws ResourceNotFoundException if the record is not found
-     */
     public RecordResponse getRecordById(Long id) {
         log.info("Fetching record with id: {}", id);
 
@@ -74,14 +56,6 @@ public class RecordService {
         return RecordResponse.fromEntity(record);
     }
 
-    /**
-     * Updates an existing record.
-     *
-     * @param id the record ID
-     * @param request the update request payload
-     * @return the updated record response
-     * @throws ResourceNotFoundException if the record is not found
-     */
     @Transactional
     public RecordResponse updateRecord(Long id, RecordRequest request) {
         log.info("Updating record with id: {}", id);
@@ -89,7 +63,6 @@ public class RecordService {
         Record record = recordRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Record", "id", id));
 
-        // Update fields
         record.setTitle(request.getTitle());
         record.setDescription(request.getDescription());
         if (request.getStatus() != null) {
@@ -102,12 +75,6 @@ public class RecordService {
         return RecordResponse.fromEntity(updatedRecord);
     }
 
-    /**
-     * Deletes a record by its ID.
-     *
-     * @param id the record ID
-     * @throws ResourceNotFoundException if the record is not found
-     */
     @Transactional
     public void deleteRecord(Long id) {
         log.info("Deleting record with id: {}", id);

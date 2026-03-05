@@ -20,9 +20,6 @@ public class RecordController {
 
     private final RecordService recordService;
 
-    /**
-     * POST /api/v1/records — Create a new record.
-     */
     @PostMapping
     public ResponseEntity<RecordResponse> createRecord(@Valid @RequestBody RecordRequest request) {
         log.info("POST /api/v1/records — Creating record with title: {}", request.getTitle());
@@ -30,9 +27,6 @@ public class RecordController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    /**
-     * GET /api/v1/records — Fetch all records.
-     */
     @GetMapping
     public ResponseEntity<List<RecordResponse>> getAllRecords() {
         log.info("GET /api/v1/records — Fetching all records");
@@ -40,9 +34,6 @@ public class RecordController {
         return ResponseEntity.ok(records);
     }
 
-    /**
-     * GET /api/v1/records/{id} — Fetch a record by ID.
-     */
     @GetMapping("/{id}")
     public ResponseEntity<RecordResponse> getRecordById(@PathVariable Long id) {
         log.info("GET /api/v1/records/{} — Fetching record by id", id);
@@ -50,9 +41,6 @@ public class RecordController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * PUT /api/v1/records/{id} — Update an existing record.
-     */
     @PutMapping("/{id}")
     public ResponseEntity<RecordResponse> updateRecord(
             @PathVariable Long id,
@@ -62,9 +50,6 @@ public class RecordController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * DELETE /api/v1/records/{id} — Delete a record by ID.
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecord(@PathVariable Long id) {
         log.info("DELETE /api/v1/records/{} — Deleting record", id);

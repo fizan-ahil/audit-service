@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/audit_database
+    username: postgres
+    password: Meghani123
+
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    com.virtusa.poc: DEBUG
