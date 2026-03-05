@@ -1,5 +1,4 @@
 package com.virtusa.poc.controller;
-
 import com.virtusa.poc.dto.request.RecordRequest;
 import com.virtusa.poc.dto.response.RecordResponse;
 import com.virtusa.poc.service.RecordService;
@@ -9,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Slf4j
@@ -48,5 +46,25 @@ public class RecordController {
         log.info("GET /api/v1/records/{} — Fetching record by id", id);
         RecordResponse response = recordService.getRecordById(id);
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * GET /api/v1/records/count — Get total number of records.
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Long> countRecords() {
+        log.info("GET /api/v1/records/count — Counting records");
+        long count = recordService.countRecords();
+        return ResponseEntity.ok(count);
+    }
+
+    /**
+     * GET /api/v1/records/status/{status} — Fetch records by status.
+     */
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<RecordResponse>> getRecordsByStatus(@PathVariable String status) {
+        log.info("GET /api/v1/records/status/{} — Fetching records by status", status);
+        List<RecordResponse> records = recordService.getRecordsByStatus(status);
+        return ResponseEntity.ok(records);
     }
 }

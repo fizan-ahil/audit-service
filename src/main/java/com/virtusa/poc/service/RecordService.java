@@ -73,4 +73,26 @@ public class RecordService {
 
         return RecordResponse.fromEntity(record);
     }
+
+    /**
+     * Returns total number of records.
+     */
+    public long countRecords() {
+        log.info("Counting total records");
+        return recordRepository.count();
+    }
+
+    /**
+     * Retrieves records by status.
+     */
+    public List<RecordResponse> getRecordsByStatus(String status) {
+        log.info("Fetching records with status: {}", status);
+
+        List<RecordResponse> records = recordRepository.findByStatus(status).stream()
+                .map(RecordResponse::fromEntity)
+                .toList();
+
+        log.info("Found {} records with status {}", records.size(), status);
+        return records;
+    }
 }
