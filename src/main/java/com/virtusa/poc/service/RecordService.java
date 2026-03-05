@@ -73,4 +73,49 @@ public class RecordService {
 
         return RecordResponse.fromEntity(record);
     }
+
+    /**
+     * Updates an existing record.
+     *
+     * @param id the record ID
+     * @param request the update request payload
+     * @return the updated record response
+     * @throws ResourceNotFoundException if the record is not found
+     */
+    @Transactional
+    public RecordResponse updateRecord(Long id, RecordRequest request) {
+        log.info("Updating record with id: {}", id);
+
+        Record record = recordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Record", "id", id));
+
+        // Update fields
+        record.setTitle(request.getTitle());
+        record.setDescription(request.getDescription());
+        if (request.getStatus() != null) {
+            record.setStatus(request.getStatus());
+        }
+
+        Record updatedRecord = recordRepository.save(record);
+        log.info("Record updated successfully with id: {}", updatedRecord.getId());
+
+        return RecordResponse.fromEntity(updatedRecord);
+    }
+
+    /**
+     * Deletes a record by its ID.
+     *
+     * @param id the record ID
+     * @throws ResourceNotFoundException if the record is not found
+     */
+    @Transactional
+    public void deleteRecord(Long id) {
+        log.info("Deleting record with id: {}", id);
+
+        Record record = recordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Record", "id", id));
+
+        recordRepository.delete(record);
+        log.info("Record deleted successfully with id: {}", id);
+    }
 }
