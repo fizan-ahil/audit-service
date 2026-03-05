@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/audit_database
     username: postgres
-    password: Meghani123
+    password: "YOUR_PASSWORD_HERE"
     driver-class-name: org.postgresql.Driver
 
   jpa:

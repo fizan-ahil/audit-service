@@ -49,4 +49,26 @@ public class RecordController {
         RecordResponse response = recordService.getRecordById(id);
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * PUT /api/v1/records/{id} — Update an existing record.
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<RecordResponse> updateRecord(
+            @PathVariable Long id,
+            @Valid @RequestBody RecordRequest request) {
+        log.info("PUT /api/v1/records/{} — Updating record", id);
+        RecordResponse response = recordService.updateRecord(id, request);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * DELETE /api/v1/records/{id} — Delete a record by ID.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRecord(@PathVariable Long id) {
+        log.info("DELETE /api/v1/records/{} — Deleting record", id);
+        recordService.deleteRecord(id);
+        return ResponseEntity.noContent().build();
+    }
 }
