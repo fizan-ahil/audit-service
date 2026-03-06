@@ -22,4 +22,8 @@ server:
 logging:
   level:
     com.virtusa.poc: DEBUG
+
     org.springframework.web: INFO
+
+    org.springframework.web: INFO
+

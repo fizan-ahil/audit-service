@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Service class that contains the business logic for managing Records.
  * It acts as the "Brain" between the Controller and the Repository.
@@ -20,11 +21,18 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) // Optimizes performance for read-only operations (GET)
+=======
+@Slf4j
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+>>>>>>> 267b6a60eda892b2bc7d73cb06792cccd4a6b930
 public class RecordService {
 
     private final RecordRepository recordRepository;
 
     /**
+<<<<<<< HEAD
      * Business logic to create a new record.
      * Maps the Request DTO to the Record Entity and saves it.
      */
@@ -33,6 +41,17 @@ public class RecordService {
         log.info("Service: Creating record with title: {}", request.getTitle());
 
         // Using the Builder pattern to create a new Record entity
+=======
+     * Creates a new record from the given request payload.
+     *
+     * @param request the record creation request
+     * @return the created record response
+     */
+    @Transactional
+    public RecordResponse createRecord(RecordRequest request) {
+        log.info("Creating new record with title: {}", request.getTitle());
+
+>>>>>>> 267b6a60eda892b2bc7d73cb06792cccd4a6b930
         Record record = Record.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
@@ -40,12 +59,17 @@ public class RecordService {
                 .build();
 
         Record savedRecord = recordRepository.save(record);
+<<<<<<< HEAD
         log.info("Service: Record saved successfully with ID: {}", savedRecord.getId());
+=======
+        log.info("Record created successfully with id: {}", savedRecord.getId());
+>>>>>>> 267b6a60eda892b2bc7d73cb06792cccd4a6b930
 
         return RecordResponse.fromEntity(savedRecord);
     }
 
     /**
+<<<<<<< HEAD
      * Retrieves all records currently stored in the 'records' table.
      */
     public List<RecordResponse> getAllRecords() {
@@ -127,6 +151,163 @@ public class RecordService {
         }
 
         // 2. Batch delete all found records
+        recordRepository.deleteAll(recordsToDelete);
+        log.info("Service: Successfully deleted {} record(s) with title '{}'", recordsToDelete.size(), title);
+    }
+}
+=======
+     * Retrieves all records.
+     *
+     * @return list of all record responses
+     */
+    public List<RecordResponse> getAllRecords() {
+        log.info("Fetching all records");
+
+        List<RecordResponse> records = recordRepository.findAll().stream()
+                .map(RecordResponse::fromEntity)
+                .toList();
+
+        log.info("Found {} records", records.size());
+        return records;
+    }
+
+    /**
+     * Retrieves a single record by its ID.
+     *
+     * @param id the record ID
+     * @return the record response
+     * @throws ResourceNotFoundException if the record is not found
+     */
+    public RecordResponse getRecordById(Long id) {
+        log.info("Fetching record with id: {}", id);
+
+        Record record = recordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Record", "id", id));
+
+        return RecordResponse.fromEntity(record);
+    }
+}
+>>>>>>> 267b6a60eda892b2bc7d73cb06792cccd4a6b930
+package com.virtusa.poc.service;
+
+import com.virtusa.poc.dto.request.RecordRequest;
+import com.virtusa.poc.dto.response.RecordResponse;
+import com.virtusa.poc.entity.Record;
+import com.virtusa.poc.exception.ResourceNotFoundException;
+import com.virtusa.poc.repository.RecordRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * Service class that contains the business logic for managing Records.
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class RecordService {
+
+    private final RecordRepository recordRepository;
+
+    /**
+     * Creates a new record from the given request payload.
+     */
+    @Transactional
+    public RecordResponse createRecord(RecordRequest request) {
+        log.info("Service: Creating record with title: {}", request.getTitle());
+
+        Record record = Record.builder()
+                .title(request.getTitle())
+                .description(request.getDescription())
+                .status(request.getStatus() != null ? request.getStatus() : "ACTIVE")
+                .build();
+
+        Record savedRecord = recordRepository.save(record);
+        log.info("Service: Record saved successfully with ID: {}", savedRecord.getId());
+
+        return RecordResponse.fromEntity(savedRecord);
+    }
+
+    /**
+     * Retrieves all records.
+     */
+    public List<RecordResponse> getAllRecords() {
+        log.info("Service: Fetching all records from database");
+        return recordRepository.findAll().stream()
+                .map(RecordResponse::fromEntity)
+                .toList();
+    }
+
+    /**
+     * Finds a single record by its ID.
+     */
+    public RecordResponse getRecordById(Long id) {
+        log.info("Service: Fetching record with ID: {}", id);
+        Record record = recordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Record", "id", id));
+        return RecordResponse.fromEntity(record);
+    }
+
+    /**
+     * Logic for updating an existing record's details.
+     */
+    @Transactional
+    public RecordResponse updateRecord(Long id, RecordRequest request) {
+        log.info("Service: Updating record with ID: {}", id);
+
+        Record record = recordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Record", "id", id));
+
+        record.setTitle(request.getTitle());
+        record.setDescription(request.getDescription());
+        if (request.getStatus() != null) {
+            record.setStatus(request.getStatus());
+        }
+
+        Record updatedRecord = recordRepository.save(record);
+        return RecordResponse.fromEntity(updatedRecord);
+    }
+
+    /**
+     * Deletes a record by its unique ID.
+     */
+    @Transactional
+    public void deleteRecord(Long id) {
+        log.info("Service: Deleting record with ID: {}", id);
+        if (!recordRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Record", "id", id);
+        }
+        recordRepository.deleteById(id);
+    }
+
+    /**
+     * Performs a partial, case-insensitive search by title.
+     */
+    public List<RecordResponse> searchByTitle(String title) {
+        log.info("Service: Searching for records containing: {}", title);
+        return recordRepository.findByTitleContainingIgnoreCase(title).stream()
+                .map(RecordResponse::fromEntity)
+                .toList();
+    }
+
+    /**
+     * Logic to delete records by an exact title.
+     */
+    @Transactional
+    public void deleteByTitle(String title) {
+        log.info("Service: Deleting all records with exact title: {}", title);
+
+        List<Record> recordsToDelete = recordRepository.findByTitle(title);
+
+        if (recordsToDelete.isEmpty()) {
+            log.warn("Service: No records found with title '{}' to delete", title);
+            return;
+        }
+
         recordRepository.deleteAll(recordsToDelete);
         log.info("Service: Successfully deleted {} record(s) with title '{}'", recordsToDelete.size(), title);
     }
