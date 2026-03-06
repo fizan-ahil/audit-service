@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -49,4 +50,19 @@ public class RecordController {
         RecordResponse response = recordService.getRecordById(id);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/paged")
+public ResponseEntity<Page<RecordResponse>> getPagedRecords(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size,
+        @RequestParam(defaultValue = "id") String sortBy,
+        @RequestParam(defaultValue = "asc") String direction) {
+
+    log.info("API: Fetching paginated records - page: {}, size: {}, sortBy: {}, direction: {}",
+            page, size, sortBy, direction);
+
+    Page<RecordResponse> records = recordService.getPagedRecords(page, size, sortBy, direction);
+
+    return ResponseEntity.ok(records);
+}
 }
