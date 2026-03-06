@@ -101,7 +101,7 @@ public class RecordController {
     /**
      * DELETE /api/v1/records/delete-by-title?title=...
      * Purpose: Remove records that match a specific title exactly.
-     * This is the NEW API you requested.
+
      */
     @DeleteMapping("/delete-by-title")
     public ResponseEntity<Void> deleteByTitle(@RequestParam String title) {
